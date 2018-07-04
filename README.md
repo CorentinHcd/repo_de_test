@@ -48,7 +48,21 @@ Une bonne chose de faîte, mais nous avons de la route devant nous.
 
 ![Forrest Gump](https://media.giphy.com/media/D6uUoxFgRL1GU/giphy.gif)
 
-Puisque la sécurité est au coeur des préoccupations, nous allons générer une clé SSH histoire de se connecter de manière sécurisée.
-Et comme je suis feignant, je vous laisse suivre [un très bon tuto](https://gitlab.com/help/ssh/README#generating-a-new-ssh-key-pair) !
+Puisque la sécurité est au coeur des préoccupations, il est fortement recommandé de générer une clé SSH histoire de se connecter de manière sécurisée ( mais aussi parce que s'identifier à chaque commit c'est légèrement lourd ). Ici, nous n'en auront pas besoin mais suivez tout de même [ce tuto](https://gitlab.com/help/ssh/README#generating-a-new-ssh-key-pair) si vous êtes curieux !
 
+Bien, nous voilà fin prêts pour commencer à jouer avec GitHub.
+
+Récupérez le projet à l'aide de cette commande :
+
+`git clone https://github.com/CorentinHcd/repo_de_test.git` Cela va vous créer un dossier nommé 'repo_de_test' ( original comme nom je vous l'accorde ) avec lequel nous allons interagir. Si vous souhaitez changer le nom de ce projet, vous n'avez qu'à spécifier le nom du répertoire dans lequel vous souhaitez le mettre : `git clone https://github.com/CorentinHcd/repo_de_test.git GithubRepo` ira dans le dossier GithubRepo.
+
+Vous vous rappelez des branches ? Et bien nous y revoilà, appréhendons les :
+
+![branch](https://github.com/CorentinHcd/repo_de_test/blob/master/screenshots/git_branch.PNG)
+
+Tout d'abord, vérifions la liste des branches avec `git branch`. On s'aperçoit que l'on possède la '**master**' ( qui, dans tous les projets, représente le livrable, ce que l'on va rendre au client ) et la branche '**branche_maj_app_component**'. Cette branche est une copie de la branche master au moment du git branch et sert à développer une fonctionnalité indépendamment de la branche master. En d'autres termes, nous ne sommes pas obligés de travailler directement sur le produit livrable, nous travaillons sur une branche à part qui nous permet de ne pas impacter directement la master.
+
+Petite astuce gratuite : Pour créer une branche et directement aller dessus, il vous suffit de lancer la commande `git checkout -b [nom_branche]` au lieu d'avoir à faire `git branch [nom_branche]` puis `git checkout [nom_branche]`.
+
+Et bien à votre tour, créez une branche que vous appelez hello_world. Allez dans le projet et modifiez le fichier C:\Users\nomUtilisateur\Documents\nomDuRepo\src\app\app.component.ts en remplacant 'MAJ du titre' par 'Meilleur titre'.
 
