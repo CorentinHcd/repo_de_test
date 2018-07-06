@@ -95,7 +95,11 @@ Et bien `git status` permet de connaître l'**état de votre dépôt**. En plus 
 
 On va faire une autre manipulation, modifiez le fichier app.component.html en remplaçant 'Here are some links to help you start:' par ce que vous souhaitez écrire, faîtes vous plaisir.
 
-Modifié ? Bien, allons-voir ce qu'il se passe quand on tape `git status`.
+Modifié ? Bien, allons-voir ce qu'il se passe quand on tape `git diff src/app/app.component.html`.
+Et oui, cette commande permet de voir ce que vous avez modifié dans le fichier concerné, pratique non ?
+En l'occurrence, 'Here are some links to help you start:' est en rouge car vous l'avez supprimé, on le remarque notamment avec le moins rouge et vous avez mis à la place votre texte qui est caractérisé par un + en vert.
+
+De même, tapez `git status` :
 
 ![status_2](https://github.com/CorentinHcd/repo_de_test/blob/branche_maj_app_component/screenshots/status_2.PNG)
 
@@ -160,7 +164,6 @@ ALEEEEEERTE !!!
 - [ ] Set upstream
 
 Et bien là encore, nous nous retrouvons bloqués ( promis c'est la dernière fois ).
-
 Il s'avère que nous n'avons absolument pas spécifié à Git de se souvenir qu'un `git push` de notre branche hello_world envoie les changements à la branche hello_world sur le dépôt distant. Après l'avoir spécifié, il sera possible de juste écrire `git push`.
 
 tapez `git push --set-upstream origin hello_world`. Ouf le push se passe bien, enfin finit les problèmes.
@@ -198,9 +201,11 @@ Il s'avère que nous nous sommes trompés et que ce travail à faire n'est que p
 
 > Je suis perdu entre git checkout, git reset et git revert !!
 
-Pas de problème, c'est assez dur à assimiler mais avec la pratique aucun souci, mais je vais quand même faire un rappel.
+![lost](https://media.giphy.com/media/3o7aCTPPm4OHfRLSH6/giphy.gif)
 
-``git checkout``: Expliqué juste au dessus, servira essentiellement à la création de branche et à la **suppression des modifications d'un fichier**.
+Pas de problème, c'est assez dur à assimiler mais avec la pratique aucun souci, je vais quand même faire un rappel.
+
+``git checkout``: Expliqué juste au dessus, servira essentiellement à la **création de branche** et à la **suppression des modifications d'un fichier**.
 ``git reset``: Sert à **supprimer un fichier d'un état de staged** mais aussi de **de revenir d'un ou plusieurs commits en arrière**.
 ``git revert``: Plus souple que le git reset, il permet de **garder un historique des modifications**. Il va **supprimer les modifications d'un commit dans un nouveau commit**.
   
@@ -208,15 +213,44 @@ Allez, on tape `git checkout src/app/app.component.html`.
 Si l'on tape `git status`, rien ne devrait apparaître et tant mieux.
 Nos modifications ont bien été faîtes et supposons qu'elles ont été vérifiées, il va être maintenant temps de la merger. Mais pas trop vite, en temps normal, la branche master (origin) bouge énormement et de nombreux commits l'impactent, il est donc important de récupérer ce qu'il y a sur la master pour se mettre à jour et éviter tout conflit.
 
-Au lieu d'un `git pull` qui s'occupe de faire un `git fetch + git merge`, ce qui peut engendrer des conflits, il est préférable de faire un `git fetch` puis un `git rebase`. `git fetch` s'occupe de récupérer les références et objets du dépôt distant et le merge s'occupe de fusionner le tout. `git rebase` quand à lui s'occupe d'appliquer les commits sur le dessus de la master.
+Au lieu d'un `git pull` qui s'occupe de faire un `git fetch + git merge`, ce qui peut engendrer des conflits, il est préférable de faire un `git fetch` puis un `git rebase`. `git fetch` s'occupe de récupérer les références et objets du dépôt distant et le merge s'occupe de fusionner le tout. `git rebase` quand à lui s'occupe d'appliquer les commits sur le dessus de la branche avec laquelle on souhaite travailler.
 
 ![rebase](https://github.com/CorentinHcd/repo_de_test/blob/branche_maj_app_component/screenshots/rebase.png)
+
 [Volé sans scrupule](https://wodric.com/commandes-git-2/)
 
 > Une petite explication ?
 
 Il s'avère que dans ce cas précis le git pull n'est pas un problème, mais si j’ai effectué des modifications sur la même branche, il va alors faire un commit de merge, ce qui n’a pas vraiment de sens car on veut uniquement mettre à jour notre branche et surtout pas enrichir notre projet avec une nouvelle fonctionnalité, il ne serait pas très judicieux de laisser un commit dans l’historique pour des raisons techniques… Pour contourner le problème il faut utiliser le rebase pour réécrire l’historique.
 
-Attention toutefois avec le rebase, son principe est de mettre à plat notre branche et par conséquent perdre les précédents commits de merge... Pour contourner ce problème :
+Attention toutefois avec le rebase, son principe est de mettre à plat notre branche et, par conséquent, perdre les précédents commits de merge... Pour contourner ce problème :
 `git fetch + git rebase origin/[nomBranche] --preserve-merges`. Le rebase gardera alors vos commits de merge et ajoutera bien les fonctionnalités à votre branche.
 
+`Git merge` quand à lui, s'occupera de fusionner vos modifications avec la branche principale, sauf qu'il peut y avoir des conflits...
+Si le nombre de conflits est trop important il est toujours possible d'attendre quelqu'un pour vous aider en exécutant la commande `git merge --abort`. Cela remettra le dépôt à l'état avant ce maudit merge.
+
+> Comment résoudre un conflit ?
+
+Et bien, il suffit de sélectionner les parties qui ont un intérêt et supprimer celles qui n'en ont plus, les lignes qui posent problème sont entourées par <<<<< ou =====. 
+
+![merge_conflict](https://github.com/CorentinHcd/repo_de_test/blob/branche_maj_app_component/screenshots/merge_conflit.png)
+
+Lorsque tout est résolu, on doit ajouter le fichier que l'on a modifié avec la commande `git add` puis le commiter en tout bien tout honneur.
+
+Pfiou, on en a vu des choses jusqu'ici vous vous en rappelez ?
+
+Un petit résumé de tout ça ferait pas de mal :
+
+  - `git clone` : Permet de cloner un répertoire distant sur en local.
+  - `git add` : Permet d'ajouter un fichier pour pouvoir l'associer au prochain commit.
+  - `git commit` : Permet d'identifier les fonctionnalités que vous avez développés.
+  - `git push` : Permet de pousser son travail sur le répertoire distant.
+  - `git rebase` : Permet d'être à jour avec la branche avec laquelle on souhaite travailler et permet d'éviter les conflits.
+  - `git reset` : Permet de supprimer un fichier d'un état de staged mais aussi de revenir d'un ou plusieurs commits en arrière.
+  - `git revert` : Permet de supprimer les modifications d'un commit dans un autre commit.
+  - `git checkout` : Permet de créer/changer de branche, de supprimer les modifications d'un fichier mais aussi de voir son projet dans      un état précédent.
+  - `git pull` : Permet de récupérer les données sur le répertoire distant et de les merger avec la branche avec laquelle on souhaite        travailler.
+  - `git fetch` : Permet de récupérer les données sur le répertoire distant sans les merger.
+  - `git merge` : Permet de fusionner les modifications.
+  
+Ce tutoriel n'est encore qu'une ébauche et vise à être amélioré, toutes les remarques seront prises en compte et appréciées.
