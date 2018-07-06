@@ -115,6 +115,8 @@ Tapez `git commit -m "MAJ titre"`.
 
 **Explication :**
   ![statut_sequence](https://github.com/CorentinHcd/repo_de_test/blob/branche_maj_app_component/screenshots/git_status_sequence.png)
+  
+  [Source](https://www.learnenough.com/git-tutorial)
 
 Vous comprenez mieux ?
 C'est à dire que nous avons mis notre fichier dans notre répertoire local et que nous sommes dans le bon état pour pouvoir 'push' sur notre répertoire distant ( si nous en possédons un bien sûr ).
@@ -236,6 +238,8 @@ Si le nombre de conflits est trop important il est toujours possible d'attendre 
 Et bien, il suffit de sélectionner les parties qui ont un intérêt et supprimer celles qui n'en ont plus, les lignes qui posent problème sont entourées par <<<<< ou =====. 
 
 ![merge_conflict](https://github.com/CorentinHcd/repo_de_test/blob/branche_maj_app_component/screenshots/merge_conflit.png)
+
+[Encore du vol](https://confluence.atlassian.com/bitbucket/resolve-merge-conflicts-704414003.html)
 
 Lorsque tout est résolu, on doit ajouter le fichier que l'on a modifié avec la commande `git add` puis le commiter en tout bien tout honneur.
 
