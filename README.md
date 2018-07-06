@@ -127,7 +127,9 @@ Cela arrive et ce n'est pas si grave. Mais ici, il s'avère que vous avez mal lu
 
 Bon, pas grave, parce qu'il y a une commande magique pour ça, c'est le `git reset`.
 
-Cette commande permet de supprimer un fichier d'un état de staged, en quelque sorte, si vous ajoutez un dossier sur git mais que vous ne souhaitez pour l'instant qu'un seul fichier parmi les deux se trouvant dans le dit dossier, vous n'avez qu'à reset le fichier avec cette commande : `git reset [chemin_vers_le_dossier]/[nom_dossier]/[nom_fichier]`
+Cette commande permet de supprimer un fichier d'un état de staged ( autrement dit un commit et donc modifier l'historique Git ), en quelque sorte, si vous ajoutez un dossier sur git mais que vous ne souhaitez pour l'instant qu'un seul fichier parmi les deux se trouvant dans le dit dossier, vous n'avez qu'à reset le fichier avec cette commande : `git reset [chemin_vers_le_dossier]/[nom_dossier]/[nom_fichier]`
+
+De même, si vous souhaitez modifier un commit ( il manque un fichier par exemple ), utilisez la commande `git reset --soft HEAD^` (^ pour revenir d'un commit en arrière, ^^ deux commits, etc.). La commande `git reset --hard` est plus dangereuse c'est pourquoi je n'en parlerai pas ici.
 
 > Mais quel rapport avec notre problème ?
 
@@ -135,4 +137,86 @@ Et bien le rapport, c'est que l'on va pouvoir enlever le fichier de l'état de s
 En effet, vous pouvez voir sur Git Bash si vous faîtes `git_status` une petite ligne au dessus de votre fichier : `use "git reset HEAD <file>..." to unstage`. Et oui Jamy, ils ont raison, le fait de reset notre fichier va l'enlever du dit état, et nous allons pouvoir le corriger pour que nous n'ayons pas à faire un autre commit pour le corriger par dessus.
 
 > Mais attends, imagine j'avais push le tout sur mon répertoire distant ??
+
+Toujours pas de panique, il aurait suffit de faire un `git revert`.
+
+Je m'explique, git revert qu'est-ce que c'est ?
+C'est un commit pour corriger un commit.
+
+![commit](https://media.giphy.com/media/ANbD1CCdA3iI8/giphy.gif)
+
+Mais encore ? Disons que vous avez commit une erreur, mais que vous voulez que les autres la voient pour pas qu'ils la reproduisent, et bien cette commande tombe à point, l'historique de Git est conservé et vous pouvez expliquer ce qui ne va pas dans votre commit et comment éviter cela la prochaine fois.
+
+On en était où déjà nous ? Ah oui le git reset, retournons-y.
+
+Tapez `git reset src/app/app.component.ts`, ouf, le fichier revient bien en rouge et dans l'état avant le commit et c'est parti pour le corriger, changez 'Meilleur titre' par 'Ohla on reset sa bêtise et on corrige'. On a l'air bon, ajoutez juste ce fichier ( car rappelez vous, nous souhaitons faire deux commits différents ) avec la commande `git add src/app/app.component.ts`.
+
+Créez votre commit et n'oubliez pas ce que je vous ai dit plus haut sur les commits puis pushez avec cette commande `git push`.
+
+ALEEEEEERTE !!!
+
+- [x] Créer un commit
+- [X] Push mon commit
+- [ ] Set upstream
+
+Et bien là encore, nous nous retrouvons bloqués ( promis c'est la dernière fois ).
+
+Il s'avère que nous n'avons absolument pas spécifié à Git de se souvenir qu'un `git push` de notre branche hello_world envoie les changements à la branche hello_world sur le dépôt distant. Après l'avoir spécifié, il sera possible de juste écrire `git push`.
+
+tapez `git push --set-upstream origin hello_world`. Ouf le push se passe bien, enfin finit les problèmes.
+
+![success](https://media.giphy.com/media/XreQmk7ETCak0/giphy.gif)
+
+Allons voir du côté des logs !
+
+Tapez `git log` et regardez ce que vous obtenez.
+Vous pouvez apercevoir le numéro du commit, l'auteur, la date et le message du commit juste en dessous, en gros, la liste des commits.
+
+Si vous êtes plus tâtillon et souhaitez afficher les différents commits sur une seule ligne, il vous suffit de taper `git log --oneline --graph --decorate`.
+Vous pouvez aussi :
+  - Filtrer par auteur
+    - `git log --author="nomAuteur"`
+  - Filtrer par fichier
+    - `git log -- [nomFichier]`
+  - Filtrer par message
+    - `git log --grep="nomDuMessageQueVousCherchez"`
+
+Bon, plus qu'un commit et on est bon je crois !
+
+Ouplà, attention DANGER !!!
+
+![danger](https://media.giphy.com/media/3ohc11UljvpPKWeNva/giphy.gif)
+
+Ohlà d'accord, bon bah juste attention alors...
+
+Il s'avère que nous nous sommes trompés et que ce travail à faire n'est que plus tard et n'est pas prioritaire et c'est là que `git checkout` intervient. Cette commande permet beaucoup de choses, listons en 3 :
+  - Supprimer les modifications d'un fichier :
+    - `git checkout chemin/vers/le/fichier`
+  - Changer de branche : Vous vous rappelez de ma petite astuce de tout à l'heure ? Bon pas grave, au lieu de créer une branche avec         `git branch` puis d'utiliser `git checkout` pour aller sur cette branche, l'utilisation de la commande `git checkout -b                 [nomBranche]` s'occupe de faire le tout en 1, un peu comme un liquide vaisselle.
+  - Détachement du HEAD :
+    - Si vous souhaitez voir votre projet dans un état précédent, vous pouvez le faire via cette commande : `git checkout HEAD^` (^           revient d'un commit, ^^ de deux, etc).
+
+> Je suis perdu entre git checkout, git reset et git revert !!
+
+Pas de problème, c'est assez dur à assimiler mais avec la pratique aucun souci, mais je vais quand même faire un rappel.
+
+``git checkout``: Expliqué juste au dessus, servira essentiellement à la création de branche et à la **suppression des modifications d'un fichier**.
+``git reset``: Sert à **supprimer un fichier d'un état de staged** mais aussi de **de revenir d'un ou plusieurs commits en arrière**.
+``git revert``: Plus souple que le git reset, il permet de **garder un historique des modifications**. Il va **supprimer les modifications d'un commit dans un nouveau commit**.
+  
+Allez, on tape `git checkout src/app/app.component.html`.
+Si l'on tape `git status`, rien ne devrait apparaître et tant mieux.
+Nos modifications ont bien été faîtes et supposons qu'elles ont été vérifiées, il va être maintenant temps de la merger. Mais pas trop vite, en temps normal, la branche master (origin) bouge énormement et de nombreux commits l'impactent, il est donc important de récupérer ce qu'il y a sur la master pour se mettre à jour et éviter tout conflit.
+
+Au lieu d'un `git pull` qui s'occupe de faire un `git fetch + git merge`, ce qui peut engendrer des conflits, il est préférable de faire un `git fetch` puis un `git rebase`. `git fetch` s'occupe de récupérer les références et objets du dépôt distant et le merge s'occupe de fusionner le tout. `git rebase` quand à lui s'occupe d'appliquer les commits sur le dessus de la master.
+
+![rebase](https://github.com/CorentinHcd/repo_de_test/blob/branche_maj_app_component/screenshots/rebase.png)
+[Volé sans scrupule](https://wodric.com/commandes-git-2/)
+
+> Une petite explication ?
+
+Il s'avère que dans ce cas précis le git pull n'est pas un problème, mais si j’ai effectué des modifications sur la même branche, il va alors faire un commit de merge, ce qui n’a pas vraiment de sens car on veut uniquement mettre à jour notre branche et surtout pas enrichir notre projet avec une nouvelle fonctionnalité, il ne serait pas très judicieux de laisser un commit dans l’historique pour des raisons techniques… Pour contourner le problème il faut utiliser le rebase pour réécrire l’historique.
+
+Attention toutefois avec le rebase, son principe est de mettre à plat notre branche et par conséquent perdre les précédents commits de merge... Pour contourner ce problème :
+`git fetch + git rebase origin/[nomBranche] --preserve-merges`. Le rebase gardera alors vos commits de merge et ajoutera bien les fonctionnalités à votre branche.
 
