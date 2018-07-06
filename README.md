@@ -206,7 +206,9 @@ Il s'avère que nous nous sommes trompés et que ce travail à faire n'est que p
 Pas de problème, c'est assez dur à assimiler mais avec la pratique aucun souci, je vais quand même faire un rappel.
 
 ``git checkout``: Expliqué juste au dessus, servira essentiellement à la **création de branche** et à la **suppression des modifications d'un fichier**.
+
 ``git reset``: Sert à **supprimer un fichier d'un état de staged** mais aussi de **de revenir d'un ou plusieurs commits en arrière**.
+
 ``git revert``: Plus souple que le git reset, il permet de **garder un historique des modifications**. Il va **supprimer les modifications d'un commit dans un nouveau commit**.
   
 Allez, on tape `git checkout src/app/app.component.html`.
