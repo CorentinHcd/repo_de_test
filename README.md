@@ -79,7 +79,7 @@ Vous vous rappelez des branches ? Et bien nous y revoilà, appréhendons les :
 
 ![branch](https://github.com/CorentinHcd/repo_de_test/blob/master/screenshots/git_branch.PNG)
 
-Tout d'abord, vérifions la liste des branches avec `git branch`. On s'aperçoit que l'on possède la '**master**' ( qui, dans tous les projets, représente le livrable, ce que l'on va rendre au client ) et la branche '**branche_maj_app_component**'. Cette branche est une copie de la branche master au moment du git branch et sert à développer une fonctionnalité indépendamment de la branche master. En d'autres termes, nous ne sommes pas obligés de travailler directement sur le produit livrable, nous travaillons sur une branche à part qui nous permet de ne pas impacter directement la master.
+Tout d'abord, vérifions la liste des branches avec `git branch`. On s'aperçoit que l'on possède la '**master**' ( qui, dans tous les projets, représente le livrable, ce que l'on va rendre au client ) et la branche '**branche_maj_app_component**'. Cette branche est une copie de la branche master et sert à développer une fonctionnalité indépendamment de la branche master. En d'autres termes, nous ne sommes pas obligés de travailler directement sur le produit livrable, nous travaillons sur une branche à part qui nous permet de ne pas impacter directement la master.
 
 Petite astuce gratuite : Pour créer une branche et directement aller dessus, il vous suffit de lancer la commande `git checkout -b [nom_branche]` au lieu d'avoir à faire `git branch [nom_branche]` puis `git checkout [nom_branche]`.
 
@@ -133,7 +133,7 @@ Cela arrive et ce n'est pas si grave. Mais ici, il s'avère que vous avez mal lu
 
 Bon, pas grave, parce qu'il y a une commande magique pour ça, c'est le `git reset`.
 
-Cette commande permet de supprimer un fichier d'un état de staged ( autrement dit un commit et donc modifier l'historique Git ), en quelque sorte, si vous ajoutez un dossier sur git mais que vous ne souhaitez pour l'instant qu'un seul fichier parmi les deux se trouvant dans le dit dossier, vous n'avez qu'à reset le fichier avec cette commande : `git reset [chemin_vers_le_dossier]/[nom_dossier]/[nom_fichier]`
+Cette commande permet de supprimer un fichier d'un état de staged ( et donc modifier l'historique Git ), en quelque sorte, si vous ajoutez un dossier sur git mais que vous ne souhaitez pour l'instant qu'un seul fichier parmi les deux se trouvant dans le dit dossier, vous n'avez qu'à reset le fichier avec cette commande : `git reset [chemin_vers_le_dossier]/[nom_dossier]/[nom_fichier]`
 
 De même, si vous souhaitez modifier un commit ( il manque un fichier par exemple ), utilisez la commande `git reset --soft HEAD^` (^ pour revenir d'un commit en arrière, ^^ deux commits, etc.). La commande `git reset --hard` est plus dangereuse c'est pourquoi je n'en parlerai pas ici.
 
@@ -242,6 +242,12 @@ Et bien, il suffit de sélectionner les parties qui ont un intérêt et supprime
 [Encore du vol](https://confluence.atlassian.com/bitbucket/resolve-merge-conflicts-704414003.html)
 
 Lorsque tout est résolu, on doit ajouter le fichier que l'on a modifié avec la commande `git add` puis le commiter en tout bien tout honneur.
+
+Bien, retournons à nos moutons, tapez `git merge hello_world`. Cela veut dire, fusionne moi la branche hello_world avec la master stpl et rapidos. Normalement tout se passera bien mais il faut faire attention à une chose, le fast-forward.
+
+Ici, ça indique qu'il a pris tous les commits de notre branche hello_world pour les mettre sur la branche master à la suite. Il pouvait le faire car il n’y a eu aucune modification sur la branche master depuis le commit de création de notre branche hello_world. Malheureusement, cela ne permet pas d'avoir un historique clair des merge qui ont été effectués, on peut donc forcer la création d'un commit de merge avec le flag `--no-ff` à la suite de notre commande.
+
+Pour ne pas impacter les autres, il faudrait supprimer la branche hello_world avec la commande `git branch -d hello_world` pour finir.
 
 Pfiou, on en a vu des choses jusqu'ici vous vous en rappelez ?
 
