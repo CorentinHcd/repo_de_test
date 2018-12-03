@@ -151,7 +151,7 @@ C'est un commit pour corriger un commit.
 
 ![commit](https://media.giphy.com/media/ANbD1CCdA3iI8/giphy.gif)
 
-Mais encore ? Disons que vous avez commit une erreur, mais que vous voulez que les autres la voient pour pas qu'ils la reproduisent, et bien cette commande tombe à point, l'historique de Git est conservé et vous pouvez expliquer ce qui ne va pas dans votre commit et comment éviter cela la prochaine fois.
+Mais encore ? Disons que vous avez push une erreur, mais que vous voulez que les autres la voient pour pas qu'ils la reproduisent, et bien cette commande tombe à point, l'historique de Git est conservé et vous pouvez expliquer ce qui ne va pas dans votre commit et comment éviter cela la prochaine fois.
 
 On en était où déjà nous ? Ah oui le git reset, retournons-y.
 
