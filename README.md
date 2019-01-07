@@ -6,7 +6,7 @@ comprendre les mécaniques et rouages de Github tout en voyant directement son f
 à travers des cas pratiques ( loin de moi l'idée de concurrencer tout autre tutoriel précédemment proposé comme [celui ci](https://www.miximum.fr/blog/enfin-comprendre-git/ ), je souhaite juste mettre en place les commandes expliquées ).
 Le but ici n'est pas de faire de vous des experts mais des utilisateurs qui posséderont les bases de ce gestionnaire de versions décentralisé pour ne pas avoir à se cacher lorsqu'il y a un problème.
 
-![When git blame points to me](https://tclhost.com/AIszOw3.gif)
+![When git blame points to me](https://ljdchost.com/010/AIszOw3.gif)
 
 Avant de commencer, qu'est-ce que Github.
 
